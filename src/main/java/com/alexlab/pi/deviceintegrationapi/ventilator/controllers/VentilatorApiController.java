@@ -2,6 +2,7 @@ package com.alexlab.pi.deviceintegrationapi.ventilator.controllers;
 
 import com.alexlab.pi.deviceintegrationapi.common.controllers.AbstractApiController;
 import com.alexlab.pi.deviceintegrationapi.ventilator.infrastructure.VentilatorTerminalInterface;
+import com.alexlab.pi.deviceintegrationapi.ventilator.services.VentilatorServiceInterface;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -17,18 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class VentilatorApiController extends AbstractApiController {
 
-    private final VentilatorTerminalInterface ventilatorTerminal;
+    private final VentilatorServiceInterface ventilatorService;
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void start() {
-        this.ventilatorTerminal.start();
+        this.ventilatorService.toggle();
     }
 
     @PostMapping("/stop")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void stop() {
-        this.ventilatorTerminal.stop();
+        this.ventilatorService.toggle();
     }
 
     @PutMapping("/speed/{speed}")
@@ -38,6 +39,6 @@ public class VentilatorApiController extends AbstractApiController {
             @Max(3)
             @PathVariable int speed
     ) {
-        this.ventilatorTerminal.setSpeed(speed);
+        this.ventilatorService.setSpeed(speed);
     }
 }

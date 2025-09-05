@@ -5,7 +5,7 @@ WORKDIR /workspace
 COPY pom.xml .
 RUN mvn -B -e dependency:go-offline
 
-COPY .. .
+COPY . .
 
 RUN mvn -B -e package -DskipTests
 

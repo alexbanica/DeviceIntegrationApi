@@ -13,7 +13,7 @@ management:
 integration:
   ventilator:
     terminal:
-      start_script: ""
-      stop_script: ""
-      speed_script: ""
+      start_script: "/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-onoff.json"
+      stop_script: "/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-onoff.json"
+      speed_script: "/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-speed.json"
 
