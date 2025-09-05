@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    default: dev
+  application:
+    name: DeviceIntegrationApi
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+integration:
+  ventilator:
+    terminal:
+      start_script: ""
+      stop_script: ""
+      speed_script: ""
+
