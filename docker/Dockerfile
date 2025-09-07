@@ -24,16 +24,18 @@ FROM maven:BASE_BUILD_IMAGE_VERSION AS build
 
 WORKDIR /workspace
 
-COPY --from=downloader /tmp/src /usr/src
-RUN mvn -B -e dependency:go-offline
+COPY --from=downloader /tmp/src /workspace
 
+RUN mvn -B -e org.apache.maven.plugins:maven-dependency-plugin:3.6.1:resolve \
+              org.apache.maven.plugins:maven-dependency-plugin:3.6.1:resolve-plugins
+
+# Pre-fetch everything needed for offline builds
+RUN mvn -B -e org.apache.maven.plugins:maven-dependency-plugin:3.6.1:go-offline
+
+# Build the package (skip tests)
 RUN mvn -B -e package -DskipTests
 
-FROM amazoncorretto:BASE_IMAGE_VERSION AS runtime
-
-RUN addgroup -S app && adduser -S -G app app
-
-WORKDIR /app
+FROM registry.pi.home:5000/java:BASE_IMAGE_VERSION AS runtime
 
 COPY --from=build /workspace/target/*.jar app.jar
 

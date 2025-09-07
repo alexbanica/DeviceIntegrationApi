@@ -41,14 +41,15 @@ LATEST_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:latest"
 
 # Build command
 export $(xargs < .env) && \
-sed "s/BASE_IMAGE_VERSION/${BASE_IMAGE_VERSION}/g" Dockerfile | \
-sed "s/BASE_BUILD_IMAGE_VERSION/${BASE_BUILD_IMAGE_VERSION}/g" Dockerfile | \
+sed -e "s/BASE_IMAGE_VERSION/${BASE_IMAGE_VERSION}/g" Dockerfile \
+    -e "s/BASE_BUILD_IMAGE_VERSION/${BASE_BUILD_IMAGE_VERSION}/g" Dockerfile | \
 DOCKER_BUILDKIT=1 docker buildx build ${FORCE_OPTION} \
   ${PLATFORMS:+--platform "$PLATFORMS"} \
   -t "${IMAGE_TAG}" \
   -t "${LATEST_TAG}" \
   --build-arg GITHUB_REPO="${GITHUB_REPO}" \
   --build-arg RELEASE_TAG="${RELEASE_TAG}" \
+  --secret id=GITHUB_AUTH,src=secrets/.github_auth \
   -f - \
   ${PUSH_OPTION} \
   .
