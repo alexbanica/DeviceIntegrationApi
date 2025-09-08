@@ -20,7 +20,7 @@ RUN --mount=type=secret,id=GITHUB_AUTH \
     rm src.zip
 
 
-FROM maven:BASE_BUILD_IMAGE_VERSION AS build
+FROM --platform=linux/arm64 maven:BASE_BUILD_IMAGE_VERSION AS build
 
 WORKDIR /workspace
 
@@ -37,7 +37,8 @@ RUN mvn -B -e package -DskipTests
 
 FROM registry.pi.home:5000/java:BASE_IMAGE_VERSION AS runtime
 
-COPY --from=build /workspace/target/*.jar app.jar
+WORKDIR /app
+COPY --from=build /workspace/target/*.jar /app/app.jar
 
 RUN chown app:app /app/app.jar
 USER app
@@ -46,9 +47,10 @@ ENV SPRING_PROFILES_ACTIVE=prod
 
 EXPOSE 8080
 
-ENV JAVA_OPTS=""
+ENV JAVA_OPTS="-Xms128m -Xmx256m"
+ENV JAVA_ENV=""
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5m --retries=3 \
   CMD wget -q --spider http://localhost:8080/actuator/health || wget -q --spider http://localhost:8080/ || exit 1
 
-ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE} -jar /app/app.jar"]
+ENTRYPOINT ["sh", "-c", "exec $JAVA_ENV java $JAVA_OPTS -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE} -jar /app/app.jar"]

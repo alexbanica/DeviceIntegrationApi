@@ -8,12 +8,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health
 
 integration:
   ventilator:
     terminal:
-      start_script: "/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-onoff.json"
-      stop_script: "/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-onoff.json"
-      speed_script: "/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-speed.json"
+      start_script: ${VENTILATOR_BASH_START}
+      stop_script: ${VENTILATOR_BASH_STOP}
+      speed_script: ${VENTILATOR_BASH_SPEED}
 
+#/mnt/ventilator/run.sh --input /mnt/ventilator/examples/ventilator-onoff.json"
