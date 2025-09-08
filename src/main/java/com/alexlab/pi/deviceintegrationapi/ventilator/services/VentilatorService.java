@@ -32,6 +32,8 @@ class VentilatorService implements VentilatorServiceInterface {
         if (ventilatorTerminal.start()) {
             log.info("Ventilator started. State: {}", ventilatorState);
             ventilatorState.setOn(true);
+            ventilatorState.setSpeed(1);
+            ventilatorState.setRotating(false);
         }
     }
 
@@ -40,6 +42,8 @@ class VentilatorService implements VentilatorServiceInterface {
         if (ventilatorTerminal.stop()) {
             log.info("Ventilator stopped. State: {}", ventilatorState);
             ventilatorState.setOn(false);
+            ventilatorState.setSpeed(1);
+            ventilatorState.setRotating(false);
         }
     }
 
@@ -55,5 +59,15 @@ class VentilatorService implements VentilatorServiceInterface {
         int actualIncrease = ventilatorTerminal.setSpeed(increase);
         ventilatorState.setSpeed((actualSpeed + actualIncrease) % MAX_SPEED);
         log.info("Ventilator speed set to {}. Actual speed: {}. Actual increase: {}. State: {}", desiredSpeed, actualSpeed, actualIncrease, ventilatorState);
+    }
+
+    @Override
+    public void rotate() {
+        if (ventilatorState.isOn() && ventilatorTerminal.rotate()) {
+            ventilatorState.setRotating(true);
+            log.info("Ventilator rotated. State: {}", ventilatorState);
+            return;
+        }
+        ventilatorState.setRotating(false);
     }
 }

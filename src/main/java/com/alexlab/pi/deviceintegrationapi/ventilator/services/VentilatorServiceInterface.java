@@ -6,4 +6,5 @@ public interface VentilatorServiceInterface
     void start();
     void stop();
     void setSpeed(int speed);
+    void rotate();
 }

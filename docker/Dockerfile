@@ -47,10 +47,10 @@ ENV SPRING_PROFILES_ACTIVE=prod
 
 EXPOSE 8080
 
-ENV JAVA_OPTS="-Xms128m -Xmx256m"
+ENV JAVA_OPTS=""
 ENV JAVA_ENV=""
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5m --retries=3 \
+HEALTHCHECK --interval=30s --timeout=3s --start-period=2m --retries=3 \
   CMD wget -q --spider http://localhost:8080/actuator/health || wget -q --spider http://localhost:8080/ || exit 1
 
 ENTRYPOINT ["sh", "-c", "exec $JAVA_ENV java $JAVA_OPTS -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE} -jar /app/app.jar"]

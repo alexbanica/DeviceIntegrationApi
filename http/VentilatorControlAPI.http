@@ -14,6 +14,10 @@ Accept: application/json
 PUT {{host}}/api/ventilator/speed/1
 Accept: application/json
 
+### Set Ventilator Speed
+PUT {{host}}/api/ventilator/rotate
+Accept: application/json
+
 # Notes:
 # Replace '1' in the URL with the desired speed (1, 2, or 3).
 # 1 = Low speed, 2 = Medium speed, 3 = High speed.

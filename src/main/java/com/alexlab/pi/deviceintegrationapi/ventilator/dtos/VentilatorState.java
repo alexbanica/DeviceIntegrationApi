@@ -10,5 +10,6 @@ import lombok.ToString;
 public class VentilatorState
 {
     private boolean isOn;
+    private boolean isRotating;
     private int speed;
 }

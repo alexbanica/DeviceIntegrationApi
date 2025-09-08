@@ -58,4 +58,14 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
         }
         return actualSpeed;
     }
+
+    @Override
+    public boolean rotate() {
+        try {
+            return 0 == this.terminalInterface.execute(this.configuration.getRotateCommand());
+        } catch (IOException e) {
+            log.error("Error while rotating ventilator", e);
+            return false;
+        }
+    }
 }

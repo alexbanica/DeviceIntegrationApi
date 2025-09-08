@@ -10,4 +10,5 @@ public class VentilatorTerminalConfiguration
     private String startCommand;
     private String stopCommand;
     private String setSpeedCommand;
+    private String rotateCommand;
 }

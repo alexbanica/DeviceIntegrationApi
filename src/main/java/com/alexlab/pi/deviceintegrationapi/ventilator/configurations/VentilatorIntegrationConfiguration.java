@@ -12,8 +12,9 @@ public class VentilatorIntegrationConfiguration {
     protected VentilatorTerminalConfiguration extractionTerminalConfiguration(
             @Value("${integration.ventilator.terminal.start_script}") String startScriptPath,
             @Value("${integration.ventilator.terminal.start_script}") String stopScriptPath,
-            @Value("${integration.ventilator.terminal.start_script}") String setSpeedScriptPath
+            @Value("${integration.ventilator.terminal.start_script}") String setSpeedScriptPath,
+            @Value("${integration.ventilator.terminal.rotate_script}") String rotateScriptPath
     ) {
-        return new VentilatorTerminalConfiguration(startScriptPath, stopScriptPath, setSpeedScriptPath);
+        return new VentilatorTerminalConfiguration(startScriptPath, stopScriptPath, setSpeedScriptPath, rotateScriptPath);
     }
 }

@@ -5,4 +5,5 @@ public interface VentilatorTerminalInterface
     boolean start();
     boolean stop();
     int setSpeed(int speed);
+    boolean rotate();
 }

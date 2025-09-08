@@ -27,6 +27,12 @@ public class VentilatorApiController extends AbstractApiController {
         this.ventilatorService.toggle();
     }
 
+    @PostMapping("/rotate")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void rotate() {
+        this.ventilatorService.rotate();
+    }
+
     @PostMapping("/stop")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void stop() {
