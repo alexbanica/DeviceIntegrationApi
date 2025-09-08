@@ -18,7 +18,7 @@ class LocalMachineTerminal implements TerminalInterface {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                log.info(line);
             }
             int exitValue = process.waitFor();
             log.info("Command executed. Exit value: {}", exitValue);
