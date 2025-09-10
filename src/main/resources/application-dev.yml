@@ -1,8 +1,0 @@
-integration:
-  ventilator:
-    terminal:
-      start_script: ""
-      stop_script: ""
-      speed_script: ""
-      rotate_script: ""
-

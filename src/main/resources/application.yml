@@ -13,6 +13,7 @@ management:
 integration:
   ventilator:
     terminal:
+      dir: ${VENTILATOR_SCRIPT_DIR:-}
       start_script: ${VENTILATOR_BASH_START:-}
       stop_script: ${VENTILATOR_BASH_STOP:-}
       speed_script: ${VENTILATOR_BASH_SPEED:-}

@@ -27,7 +27,7 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
     @Override
     public boolean start() {
         try {
-            return 0 == this.terminalInterface.execute(this.configuration.getStartCommand());
+            return 0 == this.terminalInterface.execute(this.configuration.getStartCommand(), this.configuration.getWorkingDirectory());
         } catch (IOException e) {
             log.error("Error while starting ventilator", e);
             return false;
@@ -37,7 +37,7 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
     @Override
     public boolean stop() {
         try {
-            return 0 == this.terminalInterface.execute(this.configuration.getStopCommand());
+            return 0 == this.terminalInterface.execute(this.configuration.getStopCommand(), this.configuration.getWorkingDirectory());
         } catch (IOException e) {
             log.error("Error while stopping ventilator", e);
             return false;
@@ -49,7 +49,7 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
         int actualSpeed = 0;
         while (speed-- >= 0) {
             try {
-                this.terminalInterface.execute(this.configuration.getStartCommand());
+                this.terminalInterface.execute(this.configuration.getStartCommand(), this.configuration.getWorkingDirectory());
                 Thread.sleep(1000);
                 actualSpeed++;
             } catch (IOException | InterruptedException e) {
@@ -62,7 +62,7 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
     @Override
     public boolean rotate() {
         try {
-            return 0 == this.terminalInterface.execute(this.configuration.getRotateCommand());
+            return 0 == this.terminalInterface.execute(this.configuration.getRotateCommand(), this.configuration.getWorkingDirectory());
         } catch (IOException e) {
             log.error("Error while rotating ventilator", e);
             return false;
