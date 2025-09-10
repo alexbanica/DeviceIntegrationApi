@@ -11,11 +11,11 @@ Accept: application/json
 ###
 
 ### Set Ventilator Speed
-PUT {{host}}/api/ventilator/speed/1
+PUT {{host}}/api/ventilator/speed/2
 Accept: application/json
 
 ### Set Ventilator Speed
-PUT {{host}}/api/ventilator/rotate
+POST {{host}}/api/ventilator/rotate
 Accept: application/json
 
 # Notes:
