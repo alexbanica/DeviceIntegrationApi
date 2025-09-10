@@ -15,7 +15,7 @@ class LocalMachineTerminal implements TerminalInterface {
     public int execute(String command, String workingDirectory) throws IOException {
         log.info("Executing command: {}", command);
 
-        ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
+        ProcessBuilder builder = new ProcessBuilder(command);
         File directory = new File(workingDirectory);
         builder.directory(directory);
 
