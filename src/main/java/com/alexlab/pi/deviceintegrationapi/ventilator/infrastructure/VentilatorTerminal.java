@@ -46,8 +46,8 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
 
     @Override
     public int setSpeed(int speed) {
-        int actualSpeed = 0;
-        while (speed-- >= 0) {
+        int actualSpeed = 1;
+        while (speed-- > 0) {
             try {
                 this.terminalInterface.execute(this.configuration.getSetSpeedCommand(), this.configuration.getWorkingDirectory());
                 Thread.sleep(1000);
