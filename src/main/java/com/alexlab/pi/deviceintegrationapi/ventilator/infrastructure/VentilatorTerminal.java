@@ -49,7 +49,7 @@ class VentilatorTerminal implements VentilatorTerminalInterface {
         int actualSpeed = 0;
         while (speed-- >= 0) {
             try {
-                this.terminalInterface.execute(this.configuration.getStartCommand(), this.configuration.getWorkingDirectory());
+                this.terminalInterface.execute(this.configuration.getSetSpeedCommand(), this.configuration.getWorkingDirectory());
                 Thread.sleep(1000);
                 actualSpeed++;
             } catch (IOException | InterruptedException e) {
