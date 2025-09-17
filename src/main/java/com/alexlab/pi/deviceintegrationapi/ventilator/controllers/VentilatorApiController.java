@@ -1,13 +1,16 @@
 package com.alexlab.pi.deviceintegrationapi.ventilator.controllers;
 
 import com.alexlab.pi.deviceintegrationapi.common.controllers.AbstractApiController;
+import com.alexlab.pi.deviceintegrationapi.ventilator.dtos.VentilatorState;
 import com.alexlab.pi.deviceintegrationapi.ventilator.services.VentilatorServiceInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Max;
@@ -47,5 +50,13 @@ public class VentilatorApiController extends AbstractApiController {
             @PathVariable int speed
     ) {
         this.ventilatorService.setSpeed(speed);
+    }
+
+    @GetMapping("/state")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public VentilatorState get()
+    {
+        return this.ventilatorService.getState();
     }
 }

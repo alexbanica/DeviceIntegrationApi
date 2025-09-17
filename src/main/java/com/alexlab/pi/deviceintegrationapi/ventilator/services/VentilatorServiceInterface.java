@@ -1,5 +1,7 @@
 package com.alexlab.pi.deviceintegrationapi.ventilator.services;
 
+import com.alexlab.pi.deviceintegrationapi.ventilator.dtos.VentilatorState;
+
 public interface VentilatorServiceInterface
 {
     void toggle();
@@ -7,4 +9,5 @@ public interface VentilatorServiceInterface
     void stop();
     void setSpeed(int speed);
     void rotate();
+    VentilatorState getState();
 }

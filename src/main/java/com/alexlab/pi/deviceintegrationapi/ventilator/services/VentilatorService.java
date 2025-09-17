@@ -17,8 +17,8 @@ class VentilatorService implements VentilatorServiceInterface {
 
     @Override
     public void toggle() {
+        log.debug("Ventilator toggled. Before state: {}", ventilatorState);
 
-        log.info("Ventilator toggled. Before state: {}", ventilatorState);
         if (ventilatorState.isOn()) {
             this.stop();
             return;
@@ -30,20 +30,20 @@ class VentilatorService implements VentilatorServiceInterface {
     @Override
     public void start() {
         if (ventilatorTerminal.start()) {
-            log.info("Ventilator started. State: {}", ventilatorState);
             ventilatorState.setOn(true);
             ventilatorState.setSpeed(1);
             ventilatorState.setRotating(false);
+            log.info("Ventilator started. State: {}", ventilatorState);
         }
     }
 
     @Override
     public void stop() {
         if (ventilatorTerminal.stop()) {
-            log.info("Ventilator stopped. State: {}", ventilatorState);
             ventilatorState.setOn(false);
             ventilatorState.setSpeed(1);
             ventilatorState.setRotating(false);
+            log.info("Ventilator stopped. State: {}", ventilatorState);
         }
     }
 
@@ -51,13 +51,15 @@ class VentilatorService implements VentilatorServiceInterface {
     public void setSpeed(int desiredSpeed) {
 
         int actualSpeed = ventilatorState.getSpeed();
-        if (actualSpeed == desiredSpeed) {
+        if (actualSpeed == desiredSpeed && !ventilatorState.isOn()) {
             return;
         }
 
         int increase = desiredSpeed > actualSpeed ? desiredSpeed - actualSpeed : MAX_SPEED - actualSpeed + desiredSpeed;
         int actualIncrease = ventilatorTerminal.setSpeed(increase);
-        ventilatorState.setSpeed((actualSpeed + actualIncrease) % MAX_SPEED);
+        int newSpeed = (actualSpeed + actualIncrease);
+
+        ventilatorState.setSpeed(newSpeed <= MAX_SPEED ? newSpeed : newSpeed % MAX_SPEED);
         log.info("Ventilator speed set to {}. Actual speed: {}. Actual increase: {}. State: {}", desiredSpeed, actualSpeed, actualIncrease, ventilatorState);
     }
 
@@ -69,5 +71,10 @@ class VentilatorService implements VentilatorServiceInterface {
             return;
         }
         ventilatorState.setRotating(false);
+    }
+
+    @Override
+    public VentilatorState getState() {
+        return ventilatorState;
     }
 }
