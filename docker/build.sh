@@ -36,8 +36,8 @@ if [ -z "${RELEASE_TAG}" ]; then
 fi
 
 export $(xargs < .env) && \
-IMAGE_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:${RELEASE_TAG}-jre8" && \
-LATEST_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:latest-jre8"
+IMAGE_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:${RELEASE_TAG}-jre${BASE_IMAGE_VERSION}" && \
+LATEST_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:latest-jre${BASE_IMAGE_VERSION}"
 
 # Build command
 export $(xargs < .env) && \
