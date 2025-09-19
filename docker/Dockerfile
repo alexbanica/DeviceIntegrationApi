@@ -1,3 +1,23 @@
+FROM alpine:3.15 AS pigpio-builder
+# Install build tools and all dependencies needed for compilation
+RUN apk add --no-cache \
+    git \
+    build-base \
+    python3-dev
+
+RUN echo -e '#!/bin/sh\nexit 0' > /usr/local/bin/ldconfig && chmod +x /usr/local/bin/ldconfig
+
+
+# Download the pigpio source and compile it
+RUN git clone https://github.com/joan2937/pigpio.git /tmp/pigpio && \
+    cd /tmp/pigpio && \
+    make && \
+    make install || true && \
+    ln -sf /usr/local/lib/libpigpio.so.1 /usr/lib/libpigpio.so && \
+    ln -sf /usr/local/lib/libpigpiod_if.so.1 /usr/lib/libpigpiod_if.so && \
+    ln -sf /usr/local/lib/libpigpiod_if2.so.1 /usr/lib/libpigpiod_if2.so
+
+
 FROM alpine:3.15 AS downloader
 ARG GITHUB_REPO
 ARG RELEASE_TAG
@@ -5,7 +25,7 @@ ARG RELEASE_TAG
 # Install required tools
 RUN apk add --no-cache curl unzip
 
-# Download and extract WordPress
+# Download and extract
 RUN --mount=type=secret,id=GITHUB_AUTH \
     set -eux; \
     auth="$(cat /run/secrets/GITHUB_AUTH)"; \
@@ -34,26 +54,6 @@ RUN mvn -B -e org.apache.maven.plugins:maven-dependency-plugin:3.6.1:go-offline
 
 # Build the package (skip tests)
 RUN mvn -B -e package -DskipTests
-
-
-FROM alpine:3.15 AS pigpio-builder
-# Install build tools and all dependencies needed for compilation
-RUN apk add --no-cache \
-    git \
-    build-base \
-    python3-dev
-
-RUN echo -e '#!/bin/sh\nexit 0' > /usr/local/bin/ldconfig && chmod +x /usr/local/bin/ldconfig
-
-
-# Download the pigpio source and compile it
-RUN git clone https://github.com/joan2937/pigpio.git /tmp/pigpio && \
-    cd /tmp/pigpio && \
-    make && \
-    make install || true && \
-    ln -sf /usr/local/lib/libpigpio.so.1 /usr/lib/libpigpio.so && \
-    ln -sf /usr/local/lib/libpigpiod_if.so.1 /usr/lib/libpigpiod_if.so && \
-    ln -sf /usr/local/lib/libpigpiod_if2.so.1 /usr/lib/libpigpiod_if2.so
 
 
 FROM registry.pi.home:5000/java:BASE_IMAGE_VERSION AS runtime
