@@ -36,14 +36,14 @@ if [ -z "${RELEASE_TAG}" ]; then
 fi
 
 export $(xargs < .env) && \
-IMAGE_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:${RELEASE_TAG}-jre8" && \
-LATEST_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:latest-jre8"
+IMAGE_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:${RELEASE_TAG}-java" && \
+LATEST_TAG="${DOCKER_REGISTRY_URI}/device-integration-api:latest-java"
 
 # Build command
 export $(xargs < .env) && \
 sed -e "s/BASE_IMAGE_VERSION/${BASE_IMAGE_VERSION}/g" Dockerfile \
     -e "s/BASE_BUILD_IMAGE_VERSION/${BASE_BUILD_IMAGE_VERSION}/g" Dockerfile | \
-DOCKER_BUILDKIT=1 docker buildx build ${FORCE_OPTION} \
+docker buildx build ${FORCE_OPTION} \
   ${PLATFORMS:+--platform "$PLATFORMS"} \
   -t "${IMAGE_TAG}" \
   -t "${LATEST_TAG}" \
