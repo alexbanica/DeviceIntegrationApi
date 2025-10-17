@@ -27,7 +27,7 @@ public class VentilatorApiController extends AbstractApiController {
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void start() {
-        this.ventilatorService.toggle();
+        this.ventilatorService.start();
     }
 
     @PostMapping("/rotate")
@@ -39,13 +39,13 @@ public class VentilatorApiController extends AbstractApiController {
     @PostMapping("/stop")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void stop() {
-        this.ventilatorService.toggle();
+        this.ventilatorService.stop();
     }
 
     @PutMapping("/speed/{speed}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void setSpeed(
-            @Min(1)
+            @Min(0)
             @Max(3)
             @PathVariable int speed
     ) {

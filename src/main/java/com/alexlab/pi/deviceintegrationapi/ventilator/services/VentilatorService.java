@@ -29,6 +29,10 @@ class VentilatorService implements VentilatorServiceInterface {
 
     @Override
     public void start() {
+        if (this.ventilatorState.isOn()) {
+            log.info("Ventilator already started. Ignoring request.");
+            return;
+        }
         if (ventilatorTerminal.start()) {
             ventilatorState.setOn(true);
             ventilatorState.setSpeed(1);
@@ -39,9 +43,13 @@ class VentilatorService implements VentilatorServiceInterface {
 
     @Override
     public void stop() {
+        if (!this.ventilatorState.isOn()) {
+            log.info("Ventilator not started. Ignoring request.");
+            return;
+        }
         if (ventilatorTerminal.stop()) {
             ventilatorState.setOn(false);
-            ventilatorState.setSpeed(1);
+            ventilatorState.setSpeed(0);
             ventilatorState.setRotating(false);
             log.info("Ventilator stopped. State: {}", ventilatorState);
         }
@@ -49,6 +57,11 @@ class VentilatorService implements VentilatorServiceInterface {
 
     @Override
     public void setSpeed(int desiredSpeed) {
+
+        if (desiredSpeed == 0) {
+            this.stop();
+            return;
+        }
 
         int actualSpeed = ventilatorState.getSpeed();
         if (actualSpeed == desiredSpeed && !ventilatorState.isOn()) {
